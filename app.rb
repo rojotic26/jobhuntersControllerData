@@ -111,7 +111,18 @@ class HuntingForAJobService < Sinatra::Base
   end
 
   get '/' do
-    ''
+    'HuntingForJobs api/v2 is up and working at /api/v2/'
+  end
+
+  # API handlers
+
+  get '/api/v1/?*' do
+    status 400
+    'HuntingForJobs api/v1 is deprecated: please use <a href="/api/v2/">api/v2</a>'
+  end
+
+  get '/api/v2/?' do
+    'HuntingForJobs /api/v2 is up and working'
   end
 
   get '/api/v2/job_openings/:category.json' do
