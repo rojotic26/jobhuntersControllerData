@@ -34,7 +34,7 @@ class HuntingForAJobService < Sinatra::Base
         'kind' => 'openings',
         'jobs' => []
       }
-      category = params[:category]
+      category = check_cat(params[:category])
       JobSearch::Tecoloco.getjobs(category).each do |title, date, cities, details|
         jobs_after['jobs'].push('id' => title, 'date' => date, 'city' => cities, 'details'=>details)
       end
@@ -127,15 +127,11 @@ class HuntingForAJobService < Sinatra::Base
 
   get '/api/v2/job_openings/:category.json' do
     cat = params[:category]
-    category_url = check_cat(cat)
-    if category_url == "none" then
-      halt 404
-    else
       content_type :json
-      get_jobs(category_url).to_json
+      get_jobs(cat).to_json
     end
 
-  end
+  
 
   get '/api/v2/job_openings/:category/city/:city.json' do
     content_type :json
