@@ -72,9 +72,9 @@ class HuntingForAJobService < Sinatra::Base
         'jobs' => []
       }
       flag=false
-      category = params[:category]
+      category = check_cat(params[:category])
       city = params[:city]
-      JobSearch::Tecoloco.getjobs(cat).each do |title, date, cities|
+      JobSearch::Tecoloco.getjobs(category).each do |title, date, cities|
         if cities.to_s == city.to_s
           flag=true
           jobs_after_city['jobs'].push('id' => title, 'date' => date)
