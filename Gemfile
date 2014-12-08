@@ -8,10 +8,6 @@ gem 'sinatra-activerecord'
 gem 'jobhunters'
 gem 'json'
 gem 'nokogiri'
-gem 'httparty'
-
-gem 'sinatra-flash'
-gem 'haml'
 gem 'tilt'
 
 group :development do
