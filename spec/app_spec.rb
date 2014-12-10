@@ -73,7 +73,7 @@ end
 
 describe 'Testing the Delete'  do
 it 'should report error if deleting an unknown entry' do
-      delete "/api/v2/offer/55555"
+      delete "/api/v2/offer/777777"
       last_response.must_be :not_found?
     end
 end

@@ -42,7 +42,7 @@ end
       last_request.url.must_match /api\/v2\/offers\/\d+/
     end
   end
-  
+
   #Created 10/12/2014
 describe 'Testing /api/v2/job_openings/:category.json' do
     #Happy path
@@ -62,7 +62,7 @@ end
 describe 'Testing /api/v2/job_openings/:category/city/:city.json' do
     #happy path :)
     it 'should return jobs' do
-      get '/api/v2/job_openings/marketing/city/Nicaragua.json'
+      get '/api/v2/job_openings/marketing/city/Guatemala.json'
       last_response.must_be :ok?
     end
     it 'should return 404 not found' do
@@ -71,17 +71,10 @@ describe 'Testing /api/v2/job_openings/:category/city/:city.json' do
     end
 end
 
-describe 'Testing /api/v2/offers/:id' do
-    #happy path :)
-    it 'should return jobs ' do
-      get '/api/v2/offers/2'
-      last_response.must_be :ok?
-    end
-    
-    #sad paths :(
-    it 'should return 400 bad request' do
-      get '/api/v2/offers/50'
-      last_response.must_be :bad_request?
+describe 'Testing the Delete'  do
+it 'should report error if deleting an unknown entry' do
+      delete "/api/v2/offer/55555"
+      last_response.must_be :not_found?
     end
 end
 
