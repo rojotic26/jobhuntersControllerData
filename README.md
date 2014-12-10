@@ -3,40 +3,63 @@ HuntingForJobs: an API for accessing Tecoloco data
 ---------------------
 [ ![Codeship Status for rojotic26/jobhuntersControllerData](https://codeship.com/projects/7b2dce80-62a1-0132-93ea-4e545b297600/status?branch=master)](https://codeship.com/projects/52110)
 
-## Usage
-
-This elemental WebService consumes the gem jobhunters to obtain information of some job offers in CA.
 
 ## Handles:
 
-## URL in Heroku: http://jobhunters.herokuapp.com/
+## URL in Heroku: http://jobhunterservice.herokuapp.com/
 
-##GET
+Brand New! API v2 routes!
 
-- GET /api/v1/
-	- returns JSON of job offers info: category (category), job_offers(Array of joboffers)
+- GET /
+	- returns OK message, showing that the service is alive and wel
 
-- GET with categories:
-			>[http://jobhunters.herokuapp.com/api/v1/job_openings/marketing.json](http://jobhunters.herokuapp.com/api/v1/job_openings/marketing.json)
+- GET /api/v2/job_openings/:category.json
+	- returns JSON body containing job info of a certain category
+	- Parameter (:category) should be a valid Tecoloco category, like "marketing"
+	- Returns status code:
+	  - 200 for success
+		- 404 for not found
 
-	-This returns:
->{"type of job":"marketing-ventas","kind":"openings","jobs":[{"id":"Asesor de Ventas Retail ESET","date":"2014-12-01","city":"Guatemala"},{"id":"Ejecutivo de Cuentas Claves Guatemala","date":"2014-12-01","city":"Guatemala"},{"id":"Ejecutivo de Cuentas Claves El Salvador","date":"2014-12-01","city":"El Salvador"},{"id":"Demo Vendedor El Salvador","date":"2014-12-01","city":"El Salvador"},{"id":"Asesor Comercial","date":"2014-12-01","city":"El Salvador"},{"id":"Asesores de Ventas y Auxiliares de Bodega","date":"2014-12-01","city":"El Salvador"},{"id":"ASESOR AGRICOLA","date":"2014-11-30","city":"El Salvador"},{"id":"VENDEDOR VETERINARIO","date":"2014-11-30","city":"El Salvador"},{"id":"Ejecutivo de Ventas de Sistemas y Proyectos ","date":"2014-11-12","city":"Guatemala"},{"id":"Vendedor Senior ","date":"2014-11-14","city":"Guatemala"},{"id":"Vendedor Senior ","date":"2014-11-14","city":"Guatemala"},{"id":"Ejecutivo de Ventas Consumo Masivo ","date":"2014-11-28","city":"Guatemala"},{"id":"Supervisor de Ventas ","date":"2014-11-20","city":"Guatemala"},{"id":"Ejecutivo de Ventas Senior ","date":"2014-11-30","city":"Costa Rica"},{"id":"PREVENDEDOR","date":"2014-11-08","city":"Nicaragua"}]}
+- GET /api/v2/job_openings/:category/city/:city.json
+	- returns JSON body containing job info of a certain category within a city
+	- Parameters
+		- :category => should be a valid Tecoloco category, like "marketing"
+		- :city => should be a valid Tecoloco city (country, actually) like El Salvador or Nicaragua
+	- Returns status code:
+		- 200 for success
+		- 404 for not found
 
-##POST
+- GET /api/v2/offers/:id
+	- retrieves offers info previously stored
+	- Parameters
+		- :id => id of the offer (1, 2, 3...)
+	- Returns status code:
+		- 200 for success
+		- 404 for not found
 
-- POST /api/v1/all
-	- returns JSON of all of the job offers info: category, id, title, city, details.
->	curl -v -H "Accept: application/json" -H "Content-type: application/json" \
->	-X POST -d "{\"categories\":[\"marketing-ventas\"]}" \
->	http://jobhunters.herokuapp.com/api/v1/all
+- POST /api/v2/joboffers
+	- record offer request to DB
+		- category (string)
+		- city (string)
+	- Returns status code:
+		- 200 for success
+		- 400 for bad request
 
-- POST /api/v1/offers
-	- record a query with the parameters you send
-> curl -v -H "Accept: application/json" -H "Content-type: application/json" \      -X POST -d "{\"category\":[\"marketing-ventas\"]}" \      http://127.0.0.1:9292/api/v1/joboffers
+- DELETE /api/v2/joboffers/:id
+	- Deletes an offer record
+	- Parameters
+		- :id => id of the offer (1, 2, 3...)
+	- returns status code:
+		-	200 for success
+		-	404 for not found
 
-- GET /api/v1/offers/:id
-	- Takes: Id's (1,2,3)
-	- Returns: List of jobs available of stored category
+API v1 Routes:
+
+-	GET /*
+	- returns deprecation message
+	- returns status code 400
+
+
 
 ## Team Members
 
