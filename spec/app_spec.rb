@@ -44,7 +44,7 @@ end
   end
   
   #Created 10/12/2014
-describe 'Testing /api/v2/job_openings/:category.json'
+describe 'Testing /api/v2/job_openings/:category.json' do
     #Happy path
     it 'should return jobs' do
       get '/api/v2/job_openings/marketing.json'
@@ -52,17 +52,17 @@ describe 'Testing /api/v2/job_openings/:category.json'
     end
 
     #Sad paths goes here!
-    it 'should return 404 not found' do
+    it 'should return 400 bad request' do
       get '/api/v1/job_openings/falsecategory.json'
-      last_response.must_be :not_found?
+      last_response.must_be :bad_request?
     end
 end
 
 #Created 10/12/2014
-describe 'Testing /api/v2/job_openings/:category/city/:city.json'
+describe 'Testing /api/v2/job_openings/:category/city/:city.json' do
     #happy path :)
     it 'should return jobs' do
-      get '/api/v2/job_openings/marketing-ventas/city/Nicaragua.json'
+      get '/api/v2/job_openings/marketing/city/Nicaragua.json'
       last_response.must_be :ok?
     end
     it 'should return 404 not found' do
@@ -71,7 +71,7 @@ describe 'Testing /api/v2/job_openings/:category/city/:city.json'
     end
 end
 
-describe 'Testing /api/v2/offers/:id'
+describe 'Testing /api/v2/offers/:id' do
     #happy path :)
     it 'should return jobs ' do
       get '/api/v2/offers/1'
@@ -79,9 +79,9 @@ describe 'Testing /api/v2/offers/:id'
     end
     
     #sad paths :(
-    it 'should return 404 not found' do
+    it 'should return 400 bad request' do
       get '/api/v2/offers/50'
-      last_response.must_be :not_found?
+      last_response.must_be :bad_request?
     end
 end
 

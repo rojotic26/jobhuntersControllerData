@@ -13,71 +13,6 @@ describe 'Getting the route of the service'  do
     end
 end
 
-<<<<<<< HEAD
-#Created 10/12/2014
-describe 'Testing /api/v2/job_openings/:category.json'
-=======
-describe 'The sad path: Get' do
-    it 'Should return 404 for unknown categories of jobs offers' do
-        get "/api/v1/job_openings/#{random_string(35)}.json"
-        last_response.must_be :not_found?
-    end
-end
-
-  describe 'Testing for sad/happy paths on GET /api/v1/job_openings/:category.json' do
-
->>>>>>> 56582e368d638cf3592fb9ab552341eced47e5c3
-    #Happy path
-    it 'should return jobs' do
-      get '/api/v2/job_openings/marketing.json'
-      last_response.must_be :ok?
-    end
-
-    #Sad paths goes here!
-    it 'should return 404 not found' do
-      get '/api/v1/job_openings/falsecategory.json'
-      last_response.must_be :not_found?
-    end
-end
-
-#Created 10/12/2014
-describe 'Testing /api/v2/job_openings/:category/city/:city.json'
-    #happy path :)
-<<<<<<< HEAD
-    it 'should return jobs' do
-      get '/api/v2/job_openings/marketing-ventas/city/Nicaragua.json'
-      last_response.must_be :ok?
-    end
-    it 'should return 404 not found' do
-      get '/api/v2/job_openings/marketing-ventas/city/Taiwan.json'
-      last_response.must_be :not_found?
-    end
-end
-
-describe 'Testing /api/v2/offers/:id'
-    #happy path :)
-    it 'should return jobs ' do
-      get '/api/v2/offers/1'
-      last_response.must_be :ok?
-    end
-    
-    #sad paths :(
-    it 'should return 404 not found' do
-      get '/api/v2/offers/50'
-      last_response.must_be :not_found?
-    end
-end
-=======
-   it 'should return jobs' do
-     get '/api/v1/job_openings/marketing-ventas/city/Nicaragua.json'
-     last_response.must_be :ok?
-   end
-   it 'should return 404 not found' do
-     get '/api/v1/job_openings/marketing-ventas/city/Taiwan.json'
-     last_response.must_be :not_found?
-   end
- end
-
   describe 'Testing for the POST path getting jobs from a certain category and a certain city' do
     before do
       Category.delete_all
@@ -107,6 +42,47 @@ end
       last_request.url.must_match /api\/v2\/offers\/\d+/
     end
   end
->>>>>>> 56582e368d638cf3592fb9ab552341eced47e5c3
+  
+  #Created 10/12/2014
+describe 'Testing /api/v2/job_openings/:category.json' do
+    #Happy path
+    it 'should return jobs' do
+      get '/api/v2/job_openings/marketing.json'
+      last_response.must_be :ok?
+    end
+
+    #Sad paths goes here!
+    it 'should return 400 bad request' do
+      get '/api/v1/job_openings/falsecategory.json'
+      last_response.must_be :bad_request?
+    end
+end
+
+#Created 10/12/2014
+describe 'Testing /api/v2/job_openings/:category/city/:city.json' do
+    #happy path :)
+    it 'should return jobs' do
+      get '/api/v2/job_openings/marketing/city/Nicaragua.json'
+      last_response.must_be :ok?
+    end
+    it 'should return 404 not found' do
+      get '/api/v2/job_openings/marketing-ventas/city/Taiwan.json'
+      last_response.must_be :not_found?
+    end
+end
+
+describe 'Testing /api/v2/offers/:id' do
+    #happy path :)
+    it 'should return jobs ' do
+      get '/api/v2/offers/2'
+      last_response.must_be :ok?
+    end
+    
+    #sad paths :(
+    it 'should return 400 bad request' do
+      get '/api/v2/offers/50'
+      last_response.must_be :bad_request?
+    end
+end
 
 end
