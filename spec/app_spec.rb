@@ -71,6 +71,11 @@ describe 'Testing /api/v2/job_openings/:category/city/:city.json' do
     end
 end
 
-
+describe 'Testing the Delete'  do
+it 'should report error if deleting an unknown entry' do
+      delete "/api/v2/offer/55555"
+      last_response.must_be :not_found?
+    end
+end
 
 end
