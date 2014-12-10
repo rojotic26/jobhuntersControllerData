@@ -1,5 +1,5 @@
 ====================
-JOBHUNTERS
+HuntingForJobs: an API for accessing Tecoloco data
 ---------------------
 [ ![Codeship Status for rojotic26/jobhuntersControllerData](https://codeship.com/projects/7b2dce80-62a1-0132-93ea-4e545b297600/status?branch=master)](https://codeship.com/projects/52110)
 
