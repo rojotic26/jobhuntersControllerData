@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require_relative '../environments'
+require_relative '../config/environments'
 
 class Offer < ActiveRecord::Base
 end
