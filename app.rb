@@ -3,8 +3,15 @@ require 'jobhunters'
 require 'json'
 require_relative 'model/offer'
 
-class HuntingForAJobService < Sinatra::Base
+class JobDynamo < Sinatra::Base
 
+  configure do
+    AWS.config(
+    access_id_key: ENV['AWS_ACCESS_KEY_ID'],
+    secrect_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+    region: ENV['AWS_REGION']
+    )
+  end
   configure :production, :development do
     enable :logging
   end
@@ -131,7 +138,7 @@ class HuntingForAJobService < Sinatra::Base
       get_jobs(cat).to_json
     end
 
-  
+
 
   get '/api/v2/job_openings/:category/city/:city.json' do
     content_type :json
