@@ -138,14 +138,26 @@ class JobDynamo < Sinatra::Base
       get_jobs(cat).to_json
     end
 
+  post '/api/v1/joboffers'do
+    content_type:json
 
+    body = request.body.read
+    logger.info body
+    begin
+      req = JSON.parse(body)
+      logger.info req
+    rescue Exception => e
+      puts e.message
+      halt 400
+    end
+  end
 
   get '/api/v2/job_openings/:category/city/:city.json' do
     content_type :json
     get_jobs_cat_city_url(params[:category],params[:city]).to_json
   end
 
-  post '/api/v2/joboffers' do
+  post '/api/v2/offers' do
     content_type:json
 
     body = request.body.read
