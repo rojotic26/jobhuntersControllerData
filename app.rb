@@ -138,7 +138,7 @@ class JobDynamo < Sinatra::Base
       get_jobs(cat).to_json
     end
 
-  post '/api/v1/joboffers'do
+  post '/api/v2/joboffers'do
     content_type:json
 
     body = request.body.read
