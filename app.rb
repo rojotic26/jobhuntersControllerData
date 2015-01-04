@@ -3,8 +3,15 @@ require 'jobhunters'
 require 'json'
 require_relative 'model/offer'
 
-class HuntingForAJobService < Sinatra::Base
+class JobDynamo < Sinatra::Base
 
+  configure do
+    AWS.config(
+    access_id_key: ENV['AWS_ACCESS_KEY_ID'],
+    secrect_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+    region: ENV['AWS_REGION']
+    )
+  end
   configure :production, :development do
     enable :logging
   end
@@ -111,18 +118,18 @@ class HuntingForAJobService < Sinatra::Base
   end
 
   get '/' do
-    'HuntingForJobs api/v2 is up and working at /api/v2/'
+    "#{app.class.name} api/v2 is up and working at /api/v2/'"
   end
 
   # API handlers
 
   get '/api/v1/?*' do
     status 400
-    'HuntingForJobs api/v1 is deprecated: please use <a href="/api/v2/">api/v2</a>'
+    "#{app.class.name}api/v1 is deprecated: please use" + "<a href=\"/api/v2/\">#{request.host}/api/v2/</a>"
   end
 
   get '/api/v2/?' do
-    'HuntingForJobs /api/v2 is up and working'
+    "#{app.class.name}HuntingForJobs /api/v2 is up and working"
   end
 
   get '/api/v2/job_openings/:category.json' do
@@ -131,14 +138,26 @@ class HuntingForAJobService < Sinatra::Base
       get_jobs(cat).to_json
     end
 
-  
+  post '/api/v2/joboffers'do
+    content_type:json
+
+    body = request.body.read
+    logger.info body
+    begin
+      req = JSON.parse(body)
+      logger.info req
+    rescue Exception => e
+      puts e.message
+      halt 400
+    end
+  end
 
   get '/api/v2/job_openings/:category/city/:city.json' do
     content_type :json
     get_jobs_cat_city_url(params[:category],params[:city]).to_json
   end
 
-  post '/api/v2/joboffers' do
+  post '/api/v2/offers' do
     content_type:json
 
     body = request.body.read
@@ -180,4 +199,21 @@ class HuntingForAJobService < Sinatra::Base
     logger.info "result: #{result}\n"
     result
   end
+
+  get '/api/v2/offers/?' do
+    content_type :json
+    body = request.body.read
+
+    begin
+      index = Category.all.map do |t|
+        { id: t.id, category: t.category, city: t.city,
+          created_at: t.created_at, updated_at: t.updated_at }
+        end
+      rescue => e
+        halt 400
+      end
+
+      index.to_json
+    end
+    
 end
