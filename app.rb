@@ -187,4 +187,21 @@ class JobDynamo < Sinatra::Base
     logger.info "result: #{result}\n"
     result
   end
+
+  get '/api/v2/offers/?' do
+    content_type :json
+    body = request.body.read
+
+    begin
+      index = Category.all.map do |t|
+        { id: t.id, category: t.category, city: t.city,
+          created_at: t.created_at, updated_at: t.updated_at }
+        end
+      rescue => e
+        halt 400
+      end
+
+      index.to_json
+    end
+    
 end
