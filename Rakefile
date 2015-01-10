@@ -1,6 +1,7 @@
 require './app'
 require 'rake/testtask'
 require_relative 'model/offer.rb'
+require 'json'
 
 task :default => :spec
 
