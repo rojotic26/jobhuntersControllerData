@@ -103,7 +103,7 @@ class JobDynamo < Sinatra::Base
         @output = "banco-servicios-financieros"
       else
         @output = "none"
-        halt 404
+      halt 404
       end
       @output
     end
@@ -154,6 +154,10 @@ class JobDynamo < Sinatra::Base
 
   get '/api/v2/job_openings/:category/city/:city.json' do
     content_type :json
+    category = params[:category]
+    city = params[:city]
+    logger.info category
+    logger.info city
     get_jobs_cat_city_url(params[:category],params[:city]).to_json
   end
 
@@ -208,12 +212,44 @@ class JobDynamo < Sinatra::Base
       index = Category.all.map do |t|
         { id: t.id, category: t.category, city: t.city,
           created_at: t.created_at, updated_at: t.updated_at }
-        end
+      end
       rescue => e
         halt 400
-      end
+    end
 
       index.to_json
+  end
+  get '/api/v2/jobs/?' do
+    content_type :json
+    body = request.body.read
+    begin
+      index = Jobs.all.map do |t|
+        {id: t.id, category: t.category, city: t.city,
+          created_at: t.created_at, updated_at: t.updated_at}
+      end
+    rescue => e
+      halt 400
     end
-    
+    index.to_json
+  end
+  get '/api/v2/jobs/:id' do
+    content_type :json
+    begin
+      jobs = Jobs.find(params[:id])
+    rescue
+      halt 404
+    end
+    begin
+      category = JSON.parse(jobs.category)
+      city = JSON.parse(jobs.city)
+      logger.info category
+      logger.info city
+      joboffers = get_jobs_cat_city_url(category,city)
+      #jobs.results = joboffers[:jobs].to_json
+      #jobs.save
+    rescue => e
+      halt 400, e
+    end
+    jobs.results
+  end
 end

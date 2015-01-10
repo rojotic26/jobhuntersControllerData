@@ -1,6 +1,7 @@
 require './app'
 require 'rake/testtask'
 require_relative 'model/offer.rb'
+require 'json'
 
 task :default => :spec
 
@@ -18,4 +19,22 @@ namespace :db do
       puts 'DB exists -- no changes made, no retry attempted'
     end
   end
-end    
+  task :populate do
+    begin
+     countries = ['Guatemala', 'El Salvador', 'Honduras','Nicaragua','Costa Rica','Panama']
+     jobs = ['banca', 'marketing']
+     jobs.each do |cat|
+      countries.each do |city|
+       job = Jobs.new
+       job.category = cat.to_json
+       job.city = city.to_json
+       if job.save
+         puts 'Record of added'
+       else
+         puts "there was an error with #{x}"
+       end
+     end
+    end
+   end
+  end
+end
