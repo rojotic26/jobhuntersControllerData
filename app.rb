@@ -67,7 +67,8 @@ class JobDynamo < Sinatra::Base
       if flag==false then
         halt 404
       else
-        jobs_after_city
+        {jobs: jobs_after_city}
+
       end
     end
 
@@ -156,7 +157,7 @@ class JobDynamo < Sinatra::Base
     content_type :json
     category = params[:category]
     city = params[:city]
-    logger.info category
+    logger.info category.class
     logger.info city
     get_jobs_cat_city_url(params[:category],params[:city]).to_json
   end
@@ -244,9 +245,9 @@ class JobDynamo < Sinatra::Base
       city = JSON.parse(jobs.city)
       logger.info category
       logger.info city
-      joboffers = get_jobs_cat_city_url(category,city)
-      #jobs.results = joboffers[:jobs].to_json
-      #jobs.save
+      joboffers = get_jobs_cat_city(category,city)
+      jobs.results = joboffers[:jobs].to_json
+      jobs.save
     rescue => e
       halt 400, e
     end

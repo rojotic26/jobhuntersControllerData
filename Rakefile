@@ -21,8 +21,8 @@ namespace :db do
   end
   task :populate do
     begin
-     countries = ['Guatemala', 'El Salvador', 'Honduras','Nicaragua','Costa Rica','Panama']
-     jobs = ['banca', 'marketing']
+     countries = [['Guatemala'], ['El Salvador'], ['Honduras'],['Nicaragua'],['Costa Rica'],['Panama']]
+     jobs = [['banca'], ['marketing']]
      jobs.each do |cat|
       countries.each do |city|
        job = Jobs.new
